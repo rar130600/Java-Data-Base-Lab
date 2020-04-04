@@ -1,5 +1,7 @@
 package console;
 
+import database.ProductDAO;
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.function.Consumer;
 public class DBManager {
     private Scanner in;
     private PrintStream out;
+    private ProductDAO dao;
     private final Map<String, Consumer<Scanner>> commands = Map.of(
             "/add", DBManager.this::add
     );
@@ -32,6 +35,15 @@ public class DBManager {
         final String user = in.next();
         out.println("Database password:");
         final String password = in.next();
+
+        try {
+            dao = new ProductDAO(user, password);
+            out.println("Successful connection to database.");
+        } catch (RuntimeException e) {
+            out.println(e.getMessage());
+            out.println(e.getCause().getMessage());
+            return false;
+        }
         return true;
     }
 
