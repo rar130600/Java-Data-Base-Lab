@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ProductDAO {
-    private String TABLE_NAME = "Products";
+    private String TABLE_NAME = "products";
     private PGSimpleDataSource dataSource;
 
     public ProductDAO(String user, String password) {
@@ -44,6 +44,15 @@ public class ProductDAO {
                     "PRIMARY KEY (id), UNIQUE(prodid), UNIQUE(title))");
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create table.", e);
+        }
+    }
+
+    public void clearTable() {
+        try (Connection connection = dataSource.getConnection()) {
+            Statement statement = connection.createStatement();
+            statement.execute("TRUNCATE TABLE " + TABLE_NAME);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to clear table.", e);
         }
     }
 }
