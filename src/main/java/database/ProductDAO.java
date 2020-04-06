@@ -55,4 +55,19 @@ public class ProductDAO {
             throw new RuntimeException("Failed to clear table.", e);
         }
     }
+
+    public void addToTable(Product product) {
+        try (Connection connection = dataSource.getConnection()) {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO " + TABLE_NAME +
+                    " (id, prodid, title, cost) VALUES " + "(" +
+                    product.getId() + ", '" +
+                    product.getProdId() + "', '" +
+                    product.getTitle() + "', " +
+                    product.getCost() + ")");
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to add to table.", e);
+        }
+    }
 }
