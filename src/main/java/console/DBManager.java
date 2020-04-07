@@ -5,6 +5,7 @@ import database.ProductDAO;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -108,15 +109,32 @@ public class DBManager {
     }
 
     private void help() {
-        out.println("/add - add to table");
-        out.println("/delete - delete product from table");
+        out.println("/add 'product_name' 'price' - add to table");
+        out.println("/delete 'product_name' - delete product from table");
         out.println("/show_all - show all product in table");
-        out.println("/price - show price product");
-        out.println("/change_price - change price product");
-        out.println("/filter_by_price - show product in price range");
+        out.println("/price 'product_name' - show price product");
+        out.println("/change_price 'product_name' 'price' - change price product");
+        out.println("/filter_by_price 'price_from' 'price_to' - show product in price range");
     }
 
-    private void add(Scanner args) {}
+    private void add(Scanner args) {
+        try {
+            if (!args.hasNext()) {
+                throw new IllegalArgumentException("Incorrect product name.");
+            }
+            String productTitle = args.next();
+
+            if (!args.hasNextInt()) {
+                throw new IllegalArgumentException("Incorrect product price.");
+            }
+            int productPrice = args.nextInt();
+
+            dao.addToTable(new Product(0, productTitle, productPrice));
+            out.println("Product successfully added!");
+        }catch (Exception e) {
+            throw new RuntimeException("Wrong format of command: " + e.getMessage());
+        }
+    }
 
     private void delete(Scanner args) {}
 

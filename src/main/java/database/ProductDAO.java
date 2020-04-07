@@ -2,10 +2,7 @@ package database;
 
 import org.postgresql.ds.PGSimpleDataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ProductDAO {
     private String TABLE_NAME = "products";
@@ -51,7 +48,7 @@ public class ProductDAO {
     public void clearTable() {
         try (Connection connection = dataSource.getConnection()) {
             Statement statement = connection.createStatement();
-            statement.execute("TRUNCATE TABLE " + TABLE_NAME);
+            statement.execute("TRUNCATE TABLE " + TABLE_NAME + " RESTART IDENTITY");
         } catch (SQLException e) {
             throw new RuntimeException("Failed to clear table.", e);
         }
@@ -60,11 +57,10 @@ public class ProductDAO {
     public void addToTable(Product product) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + TABLE_NAME +
-                    " (id, prodid, title, cost) VALUES (?, ?, ?, ?)");
-            preparedStatement.setInt(1, product.getId());
-            preparedStatement.setString(2,product.getProdId());
-            preparedStatement.setString(3, product.getTitle());
-            preparedStatement.setInt(4, product.getCost());
+                    " (prodid, title, cost) VALUES (?, ?, ?)");
+            preparedStatement.setString(1, product.getProdId());
+            preparedStatement.setString(2, product.getTitle());
+            preparedStatement.setInt(3, product.getCost());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to add to table.", e);
