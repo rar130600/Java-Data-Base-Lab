@@ -63,7 +63,11 @@ public class ProductDAO {
             preparedStatement.setInt(3, product.getCost());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to add to table.", e);
+            if ("23505".equals(e.getSQLState())) {
+                throw new IllegalArgumentException("Product already exist.");
+            } else {
+                throw new RuntimeException("Failed to add to table.", e);
+            }
         }
     }
 }
