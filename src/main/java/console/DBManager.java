@@ -14,7 +14,12 @@ public class DBManager {
     private PrintStream out;
     private ProductDAO dao;
     private final Map<String, Consumer<Scanner>> commands = Map.of(
-            "/add", DBManager.this::add
+            "/add", this::add,
+            "/delete", this::delete,
+            "/show_all", this::showAll,
+            "/price", this::showPrice,
+            "/change_price", this::changePrice,
+            "/filter_by_price", this::filterByPrice
     );
 
     public DBManager() {
@@ -52,7 +57,7 @@ public class DBManager {
         }
     }
 
-    private void execute(String line) {
+    public void execute(String line) {
         Scanner scanner = new Scanner(line);
         if (scanner.hasNext()) {
             try {
@@ -111,5 +116,15 @@ public class DBManager {
         out.println("/filter_by_price - show product in price range");
     }
 
-    private void add(Scanner args){}
+    private void add(Scanner args) {}
+
+    private void delete(Scanner args) {}
+
+    private void showAll(Scanner args) {}
+
+    private void showPrice(Scanner args) {}
+
+    private void changePrice(Scanner args) {}
+
+    private void filterByPrice(Scanner args) {}
 }
