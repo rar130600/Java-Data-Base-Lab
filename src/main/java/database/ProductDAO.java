@@ -3,6 +3,7 @@ package database;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -58,14 +59,13 @@ public class ProductDAO {
 
     public void addToTable(Product product) {
         try (Connection connection = dataSource.getConnection()) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO " + TABLE_NAME +
-                    " (id, prodid, title, cost) VALUES " + "(" +
-                    product.getId() + ", '" +
-                    product.getProdId() + "', '" +
-                    product.getTitle() + "', " +
-                    product.getCost() + ")");
-
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + TABLE_NAME +
+                    " (id, prodid, title, cost) VALUES (?, ?, ?, ?)");
+            preparedStatement.setInt(1, product.getId());
+            preparedStatement.setString(2,product.getProdId());
+            preparedStatement.setString(3, product.getTitle());
+            preparedStatement.setInt(4, product.getCost());
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to add to table.", e);
         }
