@@ -140,7 +140,13 @@ public class DBManager {
         out.println(dao.selectByTitle(productTitle).getCost());
     }
 
-    private void changePrice(Scanner args) {}
+    private void changePrice(Scanner args) {
+        String productTitle = getParseTitle(args);
+        int productPrice = getParsePrice(args);
+
+        dao.updatePrice(productTitle, productPrice);
+        out.println("Product successfully update!");
+    }
 
     private void filterByPrice(Scanner args) {}
 

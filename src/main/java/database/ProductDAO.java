@@ -87,6 +87,23 @@ public class ProductDAO {
         }
     }
 
+    public void updatePrice(String productTitle, int newPrice) {
+        if (newPrice < 0) {
+            throw new IllegalArgumentException("Price can't be negative.");
+        }
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + TABLE_NAME +
+                    " SET cost = ? WHERE title = ?");
+            preparedStatement.setInt(1, newPrice);
+            preparedStatement.setString(2, productTitle);
+            if (preparedStatement.executeUpdate() == 0) {
+                throw new IllegalArgumentException("No such product.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update table.", e);
+        }
+    }
+
     public ArrayList<Product> list() {
         ArrayList<Product> result = new ArrayList<>();
 
