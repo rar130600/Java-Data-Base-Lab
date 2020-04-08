@@ -94,17 +94,39 @@ public class ProductDAO {
             Statement statement = connection.createStatement();
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME)) {
                 while (resultSet.next()) {
-                    result.add(new Product(
-                            resultSet.getInt("id"),
-                            resultSet.getString("prodid"),
-                            resultSet.getString("title"),
-                            resultSet.getInt("cost")
-                    ));
+                    result.add(extractProduct(resultSet));
                 }
                 return result;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("failed to get data from table.", e);
+            throw new RuntimeException("Failed to get data from table.", e);
         }
+    }
+
+    public Product selectByTitle(String productTitle) {
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME +
+                    " WHERE title = ?");
+            preparedStatement.setString(1, productTitle);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return extractProduct(resultSet);
+                }
+                throw new IllegalArgumentException("No such product.");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to get data from table.", e);
+        }
+    }
+
+    private Product extractProduct(ResultSet resultSet) throws SQLException {
+        return new Product(
+                resultSet.getInt("id"),
+                resultSet.getString("prodid"),
+                resultSet.getString("title"),
+                resultSet.getInt("cost")
+        );
     }
 }

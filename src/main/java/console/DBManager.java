@@ -135,7 +135,10 @@ public class DBManager {
         dao.list().forEach(out::println);
     }
 
-    private void showPrice(Scanner args) {}
+    private void showPrice(Scanner args) {
+        String productTitle = getParseTitle(args);
+        out.println(dao.selectByTitle(productTitle).getCost());
+    }
 
     private void changePrice(Scanner args) {}
 
