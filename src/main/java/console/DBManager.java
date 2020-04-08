@@ -108,12 +108,12 @@ public class DBManager {
     }
 
     private void help() {
-        out.println("/add 'product_name' 'price' - add to table");
-        out.println("/delete 'product_name' - delete product from table");
+        out.println("/add product_name price - add to table");
+        out.println("/delete product_name - delete product from table");
         out.println("/show_all - show all product in table");
-        out.println("/price 'product_name' - show price product");
-        out.println("/change_price 'product_name' 'price' - change price product");
-        out.println("/filter_by_price 'price_from' 'price_to' - show product in price range");
+        out.println("/price product_name - show price product");
+        out.println("/change_price product_name price - change price product");
+        out.println("/filter_by_price price_from price_to - show product in price range");
     }
 
     private void add(Scanner args) {
@@ -148,7 +148,12 @@ public class DBManager {
         out.println("Product successfully update!");
     }
 
-    private void filterByPrice(Scanner args) {}
+    private void filterByPrice(Scanner args) {
+        int priceFrom = getParsePrice(args);
+        int priceTo = getParsePrice(args);
+
+        dao.list(priceFrom, priceTo).forEach(out::println);
+    }
 
     private String getParseTitle(Scanner line) {
         if (!line.hasNext()) {

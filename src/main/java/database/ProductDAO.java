@@ -120,6 +120,25 @@ public class ProductDAO {
         }
     }
 
+    public ArrayList<Product> list(int priceFrom, int priceTo) {
+        ArrayList<Product> result = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME +
+                    " WHERE cost BETWEEN ? AND ?");
+            preparedStatement.setInt(1, priceFrom);
+            preparedStatement.setInt(2, priceTo);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    result.add(extractProduct(resultSet));
+                }
+                return result;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to get data from table.", e);
+        }
+    }
+
     public Product selectByTitle(String productTitle) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME +
