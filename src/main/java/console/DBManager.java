@@ -131,7 +131,9 @@ public class DBManager {
         out.println("Product successfully deleted!");
     }
 
-    private void showAll(Scanner args) {}
+    private void showAll(Scanner args) {
+        dao.list().forEach(out::println);
+    }
 
     private void showPrice(Scanner args) {}
 

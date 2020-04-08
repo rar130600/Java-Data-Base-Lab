@@ -3,6 +3,7 @@ package database;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ProductDAO {
     private String TABLE_NAME = "products";
@@ -83,6 +84,27 @@ public class ProductDAO {
             throw new IllegalArgumentException(e.getMessage());
         } catch (SQLException e) {
             throw new RuntimeException("Failed to delete from table.", e);
+        }
+    }
+
+    public ArrayList<Product> list() {
+        ArrayList<Product> result = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection()) {
+            Statement statement = connection.createStatement();
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME)) {
+                while (resultSet.next()) {
+                    result.add(new Product(
+                            resultSet.getInt("id"),
+                            resultSet.getString("prodid"),
+                            resultSet.getString("title"),
+                            resultSet.getInt("cost")
+                    ));
+                }
+                return result;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("failed to get data from table.", e);
         }
     }
 }
