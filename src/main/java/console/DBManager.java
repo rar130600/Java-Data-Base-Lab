@@ -114,6 +114,7 @@ public class DBManager {
         out.println("/price product_name - show price product");
         out.println("/change_price product_name price - change price product");
         out.println("/filter_by_price price_from price_to - show product in price range");
+        out.println("/exit - for exit");
     }
 
     private void add(Scanner args) {
