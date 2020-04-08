@@ -70,4 +70,19 @@ public class ProductDAO {
             }
         }
     }
+
+    public void deleteFromTable(String productTitle) {
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + TABLE_NAME +
+                    " WHERE title = ?");
+            preparedStatement.setString(1, productTitle);
+            if (preparedStatement.executeUpdate() == 0) {
+                throw new IllegalArgumentException("No such product.");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to delete from table.", e);
+        }
+    }
 }

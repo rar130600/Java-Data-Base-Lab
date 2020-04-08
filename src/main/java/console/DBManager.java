@@ -5,7 +5,6 @@ import database.ProductDAO;
 
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -119,24 +118,26 @@ public class DBManager {
 
     private void add(Scanner args) {
         try {
-            if (!args.hasNext()) {
-                throw new IllegalArgumentException("Incorrect product name.");
-            }
-            String productTitle = args.next();
-
-            if (!args.hasNextInt()) {
-                throw new IllegalArgumentException("Incorrect product price.");
-            }
-            int productPrice = args.nextInt();
+            String productTitle = getParseTitle(args);
+            int productPrice = getParsePrice(args);
 
             dao.addToTable(new Product(0, productTitle, productPrice));
             out.println("Product successfully added!");
         }catch (Exception e) {
-            throw new RuntimeException("Wrong format of command: " + e.getMessage());
+            throw new RuntimeException("Error executing command: " + e.getMessage());
         }
     }
 
-    private void delete(Scanner args) {}
+    private void delete(Scanner args) {
+        try {
+            String productTitle = getParseTitle(args);
+
+            dao.deleteFromTable(productTitle);
+            out.println("Product successfully deleted!");
+        } catch (Exception e) {
+            throw new RuntimeException("Error executing command: " + e.getMessage());
+        }
+    }
 
     private void showAll(Scanner args) {}
 
@@ -145,4 +146,18 @@ public class DBManager {
     private void changePrice(Scanner args) {}
 
     private void filterByPrice(Scanner args) {}
+
+    private String getParseTitle(Scanner line) {
+        if (!line.hasNext()) {
+            throw new IllegalArgumentException("Incorrect product name.");
+        }
+        return line.next();
+    }
+
+    private int getParsePrice(Scanner line) {
+        if (!line.hasNextInt()) {
+            throw new IllegalArgumentException("Incorrect product price.");
+        }
+        return line.nextInt();
+    }
 }
