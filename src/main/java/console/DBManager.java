@@ -64,7 +64,7 @@ public class DBManager {
                 commands.getOrDefault(scanner.next(),
                         (a) -> out.println("Unknown command.")).accept(scanner);
             } catch (Exception e) {
-                out.println(e.getMessage());
+                out.println("Error executing command: " + e.getMessage());
             }
         }
     }
@@ -117,26 +117,18 @@ public class DBManager {
     }
 
     private void add(Scanner args) {
-        try {
-            String productTitle = getParseTitle(args);
-            int productPrice = getParsePrice(args);
+        String productTitle = getParseTitle(args);
+        int productPrice = getParsePrice(args);
 
-            dao.addToTable(new Product(0, productTitle, productPrice));
-            out.println("Product successfully added!");
-        }catch (Exception e) {
-            throw new RuntimeException("Error executing command: " + e.getMessage());
-        }
+        dao.addToTable(new Product(0, productTitle, productPrice));
+        out.println("Product successfully added!");
     }
 
     private void delete(Scanner args) {
-        try {
-            String productTitle = getParseTitle(args);
+        String productTitle = getParseTitle(args);
 
-            dao.deleteFromTable(productTitle);
-            out.println("Product successfully deleted!");
-        } catch (Exception e) {
-            throw new RuntimeException("Error executing command: " + e.getMessage());
-        }
+        dao.deleteFromTable(productTitle);
+        out.println("Product successfully deleted!");
     }
 
     private void showAll(Scanner args) {}
