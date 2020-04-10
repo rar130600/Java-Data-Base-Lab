@@ -21,7 +21,10 @@
                 <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0" spacing="10.0">
                     <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" styleClass="heading-2" text="Price:" />
-                        <TextField fx:id="fieldNewPrice" prefHeight="25.0" prefWidth="200.0" promptText="new price" styleClass="field-line" />
+                        <TextField fx:id="fieldNewPrice" prefHeight="25.0" prefWidth="200.0" promptText="new price" styleClass="field-line">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></TextField>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0" spacing="25.0">
