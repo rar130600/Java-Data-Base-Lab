@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import ui.MainApp;
 
 public class DataBaseWindowController {
@@ -37,6 +38,9 @@ public class DataBaseWindowController {
     private TextField fieldTo;
 
     @FXML
+    private Text textLogin;
+
+    @FXML
     private Button btnGenerate;
 
     @FXML
@@ -53,6 +57,9 @@ public class DataBaseWindowController {
 
     @FXML
     private Button btnShowAll;
+
+    @FXML
+    private Button btnSignOut;
 
     @FXML
     void onClickAdd() {
@@ -81,6 +88,11 @@ public class DataBaseWindowController {
 
     @FXML
     void onClickUpdatePrice() {
+
+    }
+
+    @FXML
+    void onClickSignOut() {
 
     }
 

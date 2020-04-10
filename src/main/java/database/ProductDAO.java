@@ -165,4 +165,8 @@ public class ProductDAO {
                 resultSet.getInt("cost")
         );
     }
+
+    public String getUser() {
+        return dataSource.getUser();
+    }
 }
