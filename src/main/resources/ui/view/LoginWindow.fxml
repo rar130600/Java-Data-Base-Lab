@@ -38,7 +38,7 @@
                   <Font size="24.0" />
                </font></TextField>
             <PasswordField fx:id="passwordField" minHeight="35.0" minWidth="275.0" promptText="password" styleClass="field-line" />
-            <Button alignment="CENTER" contentDisplay="CENTER" minHeight="35.0" minWidth="100.0" mnemonicParsing="false" onAction="#onClickButton" styleClass="btn-default" text="sign in">
+            <Button alignment="CENTER" contentDisplay="CENTER" minHeight="35.0" minWidth="100.0" mnemonicParsing="false" onAction="#onClickButton" styleClass="btn-info" text="sign in">
                <VBox.margin>
                   <Insets top="65.0" />
                </VBox.margin></Button>
