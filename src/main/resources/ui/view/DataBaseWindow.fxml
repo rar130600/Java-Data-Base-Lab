@@ -97,7 +97,7 @@
                               <HBox alignment="CENTER" prefHeight="40.0" prefWidth="1200.0" spacing="5.0" style="-fx-background-color: #4390df;">
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-text-fill: #FFFFFF;" styleClass="heading-2" text="Login:" />
-                                    <Text fx:id="textLogin" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="heading-2" text="rar130600" />
+                                    <Text fx:id="textLogin" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="heading-2" />
                                  </children>
                               </HBox>
                               <Button fx:id="btnSignOut" mnemonicParsing="false" onAction="#onClickSignOut" styleClass="btn-info" text="sign out">

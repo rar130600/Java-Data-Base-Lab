@@ -62,6 +62,11 @@ public class DataBaseWindowController {
     private Button btnSignOut;
 
     @FXML
+    private void initialize() {
+
+    }
+
+    @FXML
     void onClickAdd() {
 
     }
@@ -93,7 +98,7 @@ public class DataBaseWindowController {
 
     @FXML
     void onClickSignOut() {
-
+        mainApp.showLoginWindow();
     }
 
     public void provideApp(MainApp mainApp) {
@@ -102,5 +107,6 @@ public class DataBaseWindowController {
 
     public void setDao(ProductDAO dao) {
         this.dao = dao;
+        textLogin.setText(dao.getUser());
     }
 }
