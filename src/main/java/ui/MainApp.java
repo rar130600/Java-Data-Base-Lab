@@ -30,6 +30,7 @@ public class MainApp extends Application {
             primaryStage.setScene(new Scene(fxmlLoader.load()));
             primaryStage.setTitle("Login to DataBase");
             primaryStage.setResizable(false);
+            primaryStage.centerOnScreen();
 
             LoginWindowController controller = fxmlLoader.getController();
             controller.provideApp(this);
@@ -44,6 +45,7 @@ public class MainApp extends Application {
             primaryStage.setScene(new Scene(fxmlLoader.load()));
             primaryStage.setTitle("DataBase");
             primaryStage.setResizable(false);
+            primaryStage.centerOnScreen();
 
             DataBaseWindowController controller = fxmlLoader.getController();
             controller.provideApp(this);
