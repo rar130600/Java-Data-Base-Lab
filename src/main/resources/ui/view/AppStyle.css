@@ -7,8 +7,11 @@
 /*
  * Text Sizes
  */
-.heading-1{
+.heading-0{
     -fx-font-size: 70px;
+}
+.heading-1{
+    -fx-font-size: 40px;
 }
 .heading-2{
     -fx-font-size: 18px;

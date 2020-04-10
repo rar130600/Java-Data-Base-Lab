@@ -93,7 +93,7 @@
                      <children>
                         <VBox alignment="TOP_CENTER" prefHeight="725.0" prefWidth="1200.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="heading-1" text="Profile" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="heading-0" text="Profile" />
                               <HBox alignment="CENTER" prefHeight="40.0" prefWidth="1200.0" spacing="5.0" style="-fx-background-color: #4390df;">
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-text-fill: #FFFFFF;" styleClass="heading-2" text="Login:" />
