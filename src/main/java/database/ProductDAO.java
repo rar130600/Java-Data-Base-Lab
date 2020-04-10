@@ -6,8 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ProductDAO {
-    private String TABLE_NAME = "products";
-    private PGSimpleDataSource dataSource;
+    private final String TABLE_NAME = "products";
+    private final PGSimpleDataSource dataSource;
 
     public ProductDAO(String user, String password) {
         dataSource = new PGSimpleDataSource();
