@@ -95,12 +95,41 @@ public class DataBaseWindowController {
             controller.setProduct(new Product());
             controller.setStage(dialogStage);
             dialogStage.showAndWait();
-            Product product = controller.getProduct();
+
+            if (controller.isWasAdded()) {
+                dao.addToTable(controller.getProduct());
+                products.setAll(dao.list());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void onClickUpdatePrice() {
+        try {
+            Product product = tableView.getSelectionModel().getSelectedItem();
             if (product == null) {
                 return;
             }
-            dao.addToTable(product);
-            onClickShowAll();
+
+            FXMLLoader fxmlLoader = new FXMLLoader(mainApp.getClass().getResource("/ui/view/UpdatePriceWindow.fxml"));
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(mainApp.getPrimaryStage());
+            dialogStage.setScene(new Scene(fxmlLoader.load()));
+            dialogStage.setTitle("Update Price");
+            dialogStage.setResizable(false);
+
+            UpdatePriceWindowController controller = fxmlLoader.getController();
+            controller.setProduct(product);
+            controller.setStage(dialogStage);
+            dialogStage.showAndWait();
+
+            if (controller.isWasUpdated()) {
+                dao.updatePrice(controller.getProduct().getTitle(), controller.getProduct().getCost());
+                products.setAll(dao.list());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,7 +142,7 @@ public class DataBaseWindowController {
             return;
         }
         dao.deleteFromTable(product.getTitle());
-        onClickShowAll();
+        products.setAll(dao.list());
     }
 
     @FXML
@@ -159,7 +188,7 @@ public class DataBaseWindowController {
             for (int i = 1; i < amount + 1; i++) {
                 dao.addToTable(new Product(i, "product" + i, i * 10));
             }
-            onClickShowAll();
+            products.setAll(dao.list());
             fieldNumber.clear();
         } catch (IllegalArgumentException e) {
             createAlert(e.getMessage());
@@ -179,25 +208,6 @@ public class DataBaseWindowController {
     @FXML
     void onClickShowAll() {
         products.setAll(dao.list());
-    }
-
-    @FXML
-    void onClickUpdatePrice() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(mainApp.getClass().getResource("/ui/view/UpdatePriceWindow.fxml"));
-            Stage dialogStage = new Stage();
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(mainApp.getPrimaryStage());
-            dialogStage.setScene(new Scene(fxmlLoader.load()));
-            dialogStage.setTitle("Update Price");
-            dialogStage.setResizable(false);
-
-            UpdatePriceWindowController controller = fxmlLoader.getController();
-
-            dialogStage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML

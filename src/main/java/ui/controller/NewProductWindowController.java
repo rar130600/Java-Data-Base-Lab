@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 public class NewProductWindowController {
     private Product product;
     private Stage stage;
+    private boolean wasAdded = false;
 
     @FXML
     private TextField fieldTitle;
@@ -33,14 +34,14 @@ public class NewProductWindowController {
             fieldPrice.requestFocus();
             return;
         }
-        int price;
         try {
-            price = Integer.parseInt(fieldPrice.getText());
+            int price = Integer.parseInt(fieldPrice.getText());
             if (price < 0) {
                 throw new IllegalArgumentException("Number can't be negative.");
             }
             product.setTitle(fieldTitle.getText());
             product.setCost(price);
+            wasAdded = true;
             stage.close();
         } catch (IllegalArgumentException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -55,7 +56,7 @@ public class NewProductWindowController {
 
     @FXML
     void onClickCancel() {
-        product = null;
+        wasAdded = false;
         stage.close();
     }
 
@@ -69,5 +70,9 @@ public class NewProductWindowController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public boolean isWasAdded() {
+        return wasAdded;
     }
 }
