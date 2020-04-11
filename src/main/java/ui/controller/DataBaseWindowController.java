@@ -102,6 +102,8 @@ public class DataBaseWindowController {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (RuntimeException e) {
+            createAlertError(e.getMessage());
         }
     }
 
@@ -132,6 +134,8 @@ public class DataBaseWindowController {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (RuntimeException e) {
+            createAlertError(e.getMessage());
         }
     }
 
@@ -151,7 +155,7 @@ public class DataBaseWindowController {
         try {
             from = extractInteger(fieldFrom);
         } catch (IllegalArgumentException e) {
-            createAlert(e.getMessage());
+            createAlertWarning(e.getMessage());
             fieldFrom.requestFocus();
             return;
         } catch (RuntimeException e) {
@@ -163,7 +167,7 @@ public class DataBaseWindowController {
         try {
             to = extractInteger(fieldTo);
         } catch (IllegalArgumentException e) {
-            createAlert(e.getMessage());
+            createAlertWarning(e.getMessage());
             fieldTo.requestFocus();
             return;
         } catch (RuntimeException e) {
@@ -172,7 +176,7 @@ public class DataBaseWindowController {
         }
 
         if (from > to) {
-            createAlert("From must be lower then To.");
+            createAlertWarning("From must be lower then To.");
             fieldFrom.requestFocus();
             return;
         }
@@ -182,7 +186,7 @@ public class DataBaseWindowController {
             fieldFrom.clear();
             fieldTo.clear();
         } catch (RuntimeException e) {
-            createAlert(e.getMessage() + "\n" + e.getCause().getMessage());
+            createAlertError(e.getMessage() + "\n" + e.getCause().getMessage());
         }
     }
 
@@ -197,7 +201,7 @@ public class DataBaseWindowController {
             products.setAll(dao.list());
             fieldNumber.clear();
         } catch (IllegalArgumentException e) {
-            createAlert(e.getMessage());
+            createAlertWarning(e.getMessage());
             fieldNumber.requestFocus();
         } catch (RuntimeException e) {
             fieldNumber.requestFocus();
@@ -235,11 +239,20 @@ public class DataBaseWindowController {
         textLogin.setText(dao.getUser());
     }
 
-    private void createAlert(String message) {
+    private void createAlertError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initOwner(mainApp.getPrimaryStage());
-        alert.setTitle("Invalid field");
-        alert.setHeaderText("Please correct the invalid field.");
+        alert.setTitle("Error");
+        alert.setHeaderText("Something went wrong.");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void createAlertWarning(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(mainApp.getPrimaryStage());
+        alert.setTitle("Warning");
+        alert.setHeaderText("Maybe you made a mistake somewhere.");
         alert.setContentText(message);
         alert.showAndWait();
     }
