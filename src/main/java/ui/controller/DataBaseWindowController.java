@@ -154,6 +154,9 @@ public class DataBaseWindowController {
             createAlert(e.getMessage());
             fieldFrom.requestFocus();
             return;
+        } catch (RuntimeException e) {
+            fieldFrom.requestFocus();
+            return;
         }
 
         int to;
@@ -161,6 +164,9 @@ public class DataBaseWindowController {
             to = extractInteger(fieldTo);
         } catch (IllegalArgumentException e) {
             createAlert(e.getMessage());
+            fieldTo.requestFocus();
+            return;
+        } catch (RuntimeException e) {
             fieldTo.requestFocus();
             return;
         }
@@ -193,10 +199,15 @@ public class DataBaseWindowController {
         } catch (IllegalArgumentException e) {
             createAlert(e.getMessage());
             fieldNumber.requestFocus();
+        } catch (RuntimeException e) {
+            fieldNumber.requestFocus();
         }
     }
 
     private int extractInteger(TextField field) {
+        if (field.getText().isEmpty()) {
+            throw new RuntimeException();
+        }
         int result = Integer.parseInt(field.getText());
         if (result < 0) {
             field.requestFocus();

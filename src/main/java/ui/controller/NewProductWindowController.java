@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class NewProductWindowController {
@@ -58,6 +60,15 @@ public class NewProductWindowController {
     void onClickCancel() {
         wasAdded = false;
         stage.close();
+    }
+
+    @FXML
+    void onKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            onClickAdd();
+        } else if (event.getCode() == KeyCode.ESCAPE) {
+            onClickCancel();
+        }
     }
 
     public void setProduct(Product product) {

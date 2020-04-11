@@ -23,6 +23,7 @@ public class LoginWindowController {
     void onClickButton() {
         try {
             ProductDAO dao = new ProductDAO(loginField.getText(), passwordField.getText());
+            dao.clearTable(); // new session every time
             mainApp.showDataBaseWindow(dao);
         } catch (RuntimeException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
