@@ -29,8 +29,8 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0" spacing="25.0">
                     <children>
-                        <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onClickCancel" styleClass="btn-info" text="Cancel" />
                         <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#onClickUpdate" styleClass="btn-info" text="Update" />
+                        <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onClickCancel" styleClass="btn-info" text="Cancel" />
                     </children>
                     <VBox.margin>
                         <Insets top="20.0" />

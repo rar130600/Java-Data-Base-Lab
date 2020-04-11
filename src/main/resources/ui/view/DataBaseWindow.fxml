@@ -29,8 +29,8 @@
                            <children>
                               <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="NEVER">
                                 <items>
-                                  <Button fx:id="btnUpdatePrice" mnemonicParsing="false" onAction="#onClickUpdatePrice" styleClass="btn-info" text="Update Price" />
                                     <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onClickAdd" styleClass="btn-info" text="New product" />
+                                  <Button fx:id="btnUpdatePrice" mnemonicParsing="false" onAction="#onClickUpdatePrice" styleClass="btn-info" text="Update Price" />
                                     <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#onClickDelete" styleClass="btn-info" text="Delete" />
                                 </items>
                               </ToolBar>
