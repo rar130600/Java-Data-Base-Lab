@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -93,8 +92,15 @@ public class DataBaseWindowController {
             dialogStage.setResizable(false);
 
             NewProductWindowController controller = fxmlLoader.getController();
-
+            controller.setProduct(new Product());
+            controller.setStage(dialogStage);
             dialogStage.showAndWait();
+            Product product = controller.getProduct();
+            if (product == null) {
+                return;
+            }
+            dao.addToTable(product);
+            onClickShowAll();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,7 +113,7 @@ public class DataBaseWindowController {
             return;
         }
         dao.deleteFromTable(product.getTitle());
-        products.setAll(dao.list());
+        onClickShowAll();
     }
 
     @FXML
@@ -153,7 +159,7 @@ public class DataBaseWindowController {
             for (int i = 1; i < amount + 1; i++) {
                 dao.addToTable(new Product(i, "product" + i, i * 10));
             }
-            products.setAll(dao.list());
+            onClickShowAll();
             fieldNumber.clear();
         } catch (IllegalArgumentException e) {
             createAlert(e.getMessage());

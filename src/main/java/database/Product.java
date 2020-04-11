@@ -8,6 +8,10 @@ public class Product {
     private String title;
     private int cost;
 
+    public Product() {
+        this(0, "", 0);
+    }
+
     public Product(int id, String prodId, String title, int cost) throws IllegalArgumentException {
         if (cost < 0) {
             throw new IllegalArgumentException("Cost can't be negative!");
@@ -38,12 +42,25 @@ public class Product {
         return cost;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setProdId(String prodId) {
+        this.prodId = prodId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public void setCost(int cost) throws IllegalArgumentException {
         if (cost < 0) {
             throw new IllegalArgumentException("Cost can't be negative!");
         }
         this.cost = cost;
     }
+
 
     @Override
     public String toString() {
