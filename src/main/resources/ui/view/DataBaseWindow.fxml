@@ -34,7 +34,7 @@
                                     <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#onClickDelete" styleClass="btn-info" text="Delete" />
                                 </items>
                               </ToolBar>
-                              <TableView fx:id="tableView" prefHeight="550.0" prefWidth="1150.0" VBox.vgrow="NEVER">
+                              <TableView id="table" fx:id="tableView" prefHeight="550.0" prefWidth="1150.0" VBox.vgrow="NEVER">
                                 <columns>
                                   <TableColumn fx:id="idColumn" editable="false" maxWidth="200.0" minWidth="0.0" prefWidth="115.0" text="ID" />
                                   <TableColumn fx:id="prodIdColumn" editable="false" maxWidth="1000.0" minWidth="0.0" prefWidth="459.0" text="ProdID" />

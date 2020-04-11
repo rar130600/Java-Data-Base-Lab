@@ -2,6 +2,8 @@ package ui.controller;
 
 import database.Product;
 import database.ProductDAO;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -71,10 +73,10 @@ public class DataBaseWindowController {
 
     @FXML
     private void initialize() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("ID"));
-        prodIdColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("ProdID"));
-        titleColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Title"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("Price"));
+        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+        prodIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProdId()));
+        titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+        priceColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCost()).asObject());
 
         tableView.setItems(products);
     }
@@ -100,38 +102,77 @@ public class DataBaseWindowController {
 
     @FXML
     void onClickDelete() {
-
+        Product product = tableView.getSelectionModel().getSelectedItem();
+        if (product == null) {
+            return;
+        }
+        dao.deleteFromTable(product.getTitle());
+        products.setAll(dao.list());
     }
 
     @FXML
     void onClickFilter() {
+        int from;
+        try {
+            from = extractInteger(fieldFrom);
+        } catch (IllegalArgumentException e) {
+            createAlert(e.getMessage());
+            fieldFrom.requestFocus();
+            return;
+        }
 
+        int to;
+        try {
+            to = extractInteger(fieldTo);
+        } catch (IllegalArgumentException e) {
+            createAlert(e.getMessage());
+            fieldTo.requestFocus();
+            return;
+        }
+
+        if (from > to) {
+            createAlert("From must be lower then To.");
+            fieldFrom.requestFocus();
+            return;
+        }
+
+        try {
+            products.setAll(dao.list(from, to));
+            fieldFrom.clear();
+            fieldTo.clear();
+        } catch (RuntimeException e) {
+            createAlert(e.getMessage() + "\n" + e.getCause().getMessage());
+        }
     }
 
     @FXML
     void onClickGenerate() {
         try {
-            int amount = Integer.parseInt(fieldNumber.getText());
-            if (amount < 0) {
-                createAlert("Amount can't be negative.");
-                fieldNumber.requestFocus();
-                return;
-            }
+            int amount = extractInteger(fieldNumber);
             dao.clearTable();
             for (int i = 1; i < amount + 1; i++) {
                 dao.addToTable(new Product(i, "product" + i, i * 10));
             }
             products.setAll(dao.list());
             fieldNumber.clear();
-        } catch (NumberFormatException e) {
+        } catch (IllegalArgumentException e) {
             createAlert(e.getMessage());
             fieldNumber.requestFocus();
         }
     }
 
+    private int extractInteger(TextField field) {
+        int result = Integer.parseInt(field.getText());
+        if (result < 0) {
+            field.requestFocus();
+            throw new IllegalArgumentException("Number can't be negative.");
+        }
+        return result;
+    }
+
     @FXML
     void onClickShowAll() {
-
+        products.setAll(dao.list());
     }
 
     @FXML
