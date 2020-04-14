@@ -22,6 +22,14 @@ public class LoginWindowController {
     @FXML
     void onClickButton() {
         try {
+            if (loginField.getText().isEmpty()) {
+                loginField.requestFocus();
+                return;
+            } else if (passwordField.getText().isEmpty()) {
+                passwordField.requestFocus();
+                return;
+            }
+
             ProductDAO dao = new ProductDAO(loginField.getText(), passwordField.getText());
             dao.clearTable(); // new session every time
             mainApp.showDataBaseWindow(dao);
